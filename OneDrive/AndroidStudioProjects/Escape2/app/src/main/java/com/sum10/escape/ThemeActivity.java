@@ -32,6 +32,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.chrisbanes.photoview.PhotoView;
+
 import java.io.IOException;
 
 public class ThemeActivity extends AppCompatActivity {
@@ -113,6 +115,8 @@ public class ThemeActivity extends AppCompatActivity {
                     Log.d("Log", imageuri2);
                     //code_text.setText(""); // 입력한 힌트코드 날림
                     answer_text.setText(""); // 기존에 띄워진 정답 날림
+                    hint_image.setImageResource(0);
+                    hint_image2.setImageResource(0);
                     if (!hint.equals("-")) { // 힌트가 있을 경우에만
                         //hint_text.setText(hint); // 힌트 설명을 텍스트뷰에 뿌림
                         hint1_button.setEnabled(true);
@@ -152,7 +156,7 @@ public class ThemeActivity extends AppCompatActivity {
                 if (!imageuri2.equals("-") && !imageuri2.equals("null"))
                     sendPicture(Uri.parse(imageuri2), 2); // 이미지를 이미지뷰에 뿌림
                 else
-                    hint_image.setImageResource(0);
+                    hint_image2.setImageResource(0);
                 code_text.setText(""); // 입력한 힌트코드 날림
                 hint2_button.setEnabled(false);
             }
@@ -239,12 +243,34 @@ public class ThemeActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) { // 힌트 이미지가 잘 안보여서 클릭할 경우
                 AlertDialog.Builder alert_image = new AlertDialog.Builder(ThemeActivity.this); // 다이얼로그 하나 생성
-                ImageView imageView = new ImageView(ThemeActivity.this); // 다이얼로그에 이미지뷰 생성
+                //ImageView imageView = new ImageView(ThemeActivity.this); // 다이얼로그에 이미지뷰 생성
+                PhotoView photoView = new PhotoView(ThemeActivity.this); // 다이얼로그에 포토뷰 생성(핀치줌/아웃 가능)
                 BitmapDrawable alertimage = (BitmapDrawable) hint_image.getDrawable();
                 if (alertimage != null) {
                     Bitmap tmpBitmap = alertimage.getBitmap();
-                    imageView.setImageBitmap(tmpBitmap);
-                    alert_image.setView(imageView); // 다이얼로그 이미지뷰에 이미지를 띄워서 팝업처럼 보이게 함
+                    //imageView.setImageBitmap(tmpBitmap);
+                    photoView.setImageBitmap(tmpBitmap);
+                    //alert_image.setView(imageView); // 다이얼로그 이미지뷰에 이미지를 띄워서 팝업처럼 보이게 함
+                    alert_image.setView(photoView);
+                    alert_image.show();
+                } else
+                    Toast.makeText(getApplicationContext(), "현재 이미지가 없습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        hint_image2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) { // 힌트 이미지가 잘 안보여서 클릭할 경우
+                AlertDialog.Builder alert_image = new AlertDialog.Builder(ThemeActivity.this); // 다이얼로그 하나 생성
+                //ImageView imageView = new ImageView(ThemeActivity.this); // 다이얼로그에 이미지뷰 생성
+                PhotoView photoView = new PhotoView(ThemeActivity.this); // 다이얼로그에 포토뷰 생성(핀치줌/아웃 가능)
+                BitmapDrawable alertimage = (BitmapDrawable) hint_image2.getDrawable();
+                if (alertimage != null) {
+                    Bitmap tmpBitmap = alertimage.getBitmap();
+                    //imageView.setImageBitmap(tmpBitmap);
+                    photoView.setImageBitmap(tmpBitmap);
+                    //alert_image.setView(imageView); // 다이얼로그 이미지뷰에 이미지를 띄워서 팝업처럼 보이게 함
+                    alert_image.setView(photoView);
                     alert_image.show();
                 } else
                     Toast.makeText(getApplicationContext(), "현재 이미지가 없습니다.", Toast.LENGTH_SHORT).show();
