@@ -97,6 +97,7 @@ public class ThemeActivity extends AppCompatActivity {
         maxcount = preferences.getInt("maxcount", 5); // preference에 힌트 최대 갯수(maxcount)를 불러와 저장. 없을 시 기본 5로 가져옴
 
         hint_image.setImageResource(0);
+        hint_image2.setImageResource(0);
         hintcount_text.setText("사용 힌트 수 :  " + count + " / " + maxcount);
         hint1_button.setEnabled(false);
         hint2_button.setEnabled(false);
